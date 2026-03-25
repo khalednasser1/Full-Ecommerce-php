@@ -1,5 +1,6 @@
 <?php
-include 'includes/db.php';
+include '../includes/db.php'; 
+include '../includes/header.php';
 
 // 1. Logic: Delete Product (Fisrt thing in the page)
 if (isset($_GET['del_id'])) {
@@ -8,7 +9,7 @@ if (isset($_GET['del_id'])) {
     $stmt->execute([$id]);
     $p = $stmt->fetch();
     if ($p && !empty($p['image'])) {
-        $filePath = __DIR__ . "/images/" . $p['image'];
+        $filePath = __DIR__  . "/../images/" . $p['image'];
         if (file_exists($filePath)) { unlink($filePath); }
     }
     $pdo->prepare("DELETE FROM products WHERE id = ?")->execute([$id]);
@@ -20,7 +21,7 @@ if (isset($_GET['del_id'])) {
 if (isset($_POST['add_product'])) {
     $img = $_FILES['p_img']['name'];
     if (!empty($img)) {
-        move_uploaded_file($_FILES['p_img']['tmp_name'], "images/" . $img);
+        move_uploaded_file($_FILES['p_img']['tmp_name'], "../images/" . $img);
         $stmt = $pdo->prepare("INSERT INTO products (name, price, image) VALUES (?, ?, ?)");
         $stmt->execute([$_POST['p_name'], $_POST['p_price'], $img]);
         header('Location: admin.php');
@@ -33,7 +34,6 @@ $total_prods = $pdo->query("SELECT COUNT(*) FROM products")->fetchColumn();
 $total_orders = $pdo->query("SELECT COUNT(*) FROM orders")->fetchColumn();
 $revenue = $pdo->query("SELECT SUM(total_amount) FROM orders")->fetchColumn();
 
-include 'includes/header.php'; 
 ?>
 
 <style>
@@ -156,10 +156,10 @@ include 'includes/header.php';
     <div class="row">
         <div class="col-lg-4">
             <div class="admin-card">
-                <h5 class="fw-bold mb-4">New Hardware</h5>
+                <h5 class="fw-bold mb-4">New Product</h5>
                 <form method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label class="form-label small fw-bold">Device Name</label>
+                        <label class="form-label small fw-bold">Product Name</label>
                         <input type="text" name="p_name" class="form-control" placeholder="e.g. RTX 4090" required>
                     </div>
                     <div class="mb-3">
@@ -167,7 +167,7 @@ include 'includes/header.php';
                         <input type="number" step="0.01" name="p_price" class="form-control" placeholder="0.00" required>
                     </div>
                     <div class="mb-4">
-                        <label class="form-label small fw-bold">Hardware Photo</label>
+                        <label class="form-label small fw-bold">Product Photo</label>
                         <input type="file" name="p_img" class="form-control" required>
                     </div>
                     <button name="add_product" class="btn btn-primary btn-admin w-100 shadow-sm">
@@ -196,7 +196,7 @@ include 'includes/header.php';
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="images/<?= $p['image'] ?>?v=<?=time()?>" width="40" height="40" class="rounded-3 me-3" style="object-fit:cover;">
+                                        <img src="../images/<?= $p['image'] ?>?v=<?=time()?>" width="40" height="40" class="rounded-3 me-3" style="object-fit:cover;">
                                         <span class="fw-bold"><?= htmlspecialchars($p['name']) ?></span>
                                     </div>
                                 </td>

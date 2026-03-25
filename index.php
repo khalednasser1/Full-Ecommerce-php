@@ -93,7 +93,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <h1 class="hero-title mb-3">Premium Tech Solutions</h1>
+                <h1 class="hero-title mb-3">Premium Tech Products</h1>
                 <p class="lead text-muted mb-4">Discover the latest in high-performance hardware and accessories. Engineered for the future.</p>
                 <div class="d-flex gap-3">
                     <a href="#shop" class="btn btn-primary btn-lg px-4 rounded-pill shadow-sm">Explore Shop</a>

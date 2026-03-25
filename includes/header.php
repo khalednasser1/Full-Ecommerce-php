@@ -64,13 +64,13 @@ include 'db.php'; ?>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container"> 
-      <a class="navbar-brand fw-bold" href="index.php">TechGear <i class="fas fa-microchip text-success"></i></a>
+      <a class="navbar-brand fw-bold" href="http://localhost/Khaled%20Abd%20Elnasser%20Mohammed/index.php">TechGear <i class="fas fa-microchip text-success"></i></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item"><a class="nav-link " href="index.php">Home</a></li>
+          <li class="nav-item"><a class="nav-link " href="http://localhost/Khaled%20Abd%20Elnasser%20Mohammed/index.php">Home</a></li>
           <li class="nav-item">
             <a class="nav-link" href="cart.php">
               <span class="cart-icon-wrapper">
@@ -82,7 +82,7 @@ include 'db.php'; ?>
             </a>
           </li> 
          
-          <li class="nav-item"><a class="nav-link text-warning" href="admin.php"><i class="fas fa-sliders-h"></i></a></li>
+          <li class="nav-item"><a class="nav-link text-warning" href="./admin/admin.php"><i class="fas fa-sliders-h"></i></a></li>
           <!--  -->
         </ul>
         <div class="d-flex align-items-center">
