@@ -1,41 +1,110 @@
-<?php include 'includes/header.php'; ?>
+<?php 
+include 'includes/db.php'; // تأكد من المسار ده حسب مشروعك
+include 'includes/header.php'; 
 
-<div class="container mt-5">
+// 1. Logic: Registration Process
+if (isset($_POST['register'])) {
+    $user  = htmlspecialchars($_POST['username']);
+    $email = htmlspecialchars($_POST['email']);
+    $pass  = md5($_POST['password']); // التشفير اللي انت شغال بيه
+
+    try {
+        // الترتيب هنا حياة أو موت: username, password, email, role
+        $stmt = $pdo->prepare("INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, 'user')");
+        
+        if ($stmt->execute([$user, $pass, $email])) {
+            echo "<script>alert('Account Created Successfully! Go to Login.'); window.location='login.php';</script>";
+            exit;
+        }
+    } catch (PDOException $e) {
+        // هنا بنعرف السبب الحقيقي بدل التخمين
+        if ($e->getCode() == 23000) { // كود الخطأ لبيانات مكررة
+            $error_msg = "Error: Username or Email already exists!";
+        } else {
+            $error_msg = "Database Error: " . $e->getMessage();
+        }
+    }
+}
+?>
+
+<style>
+    body { background-color: #f5f5f7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .auth-card {
+        border: none;
+        border-radius: 24px;
+        background: #fff;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        padding: 40px;
+        margin-top: 60px;
+    }
+    .form-label { font-weight: 600; color: #1d1d1f; margin-bottom: 8px; }
+    .form-control {
+        border-radius: 12px;
+        padding: 12px 15px;
+        border: 1px solid #d2d2d7;
+        background: #fbfbfd;
+        transition: all 0.2s ease-in-out;
+    }
+    .form-control:focus {
+        border-color: #0071e3;
+        box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        background: #fff;
+    }
+    .btn-auth {
+        border-radius: 50px;
+        padding: 14px;
+        font-weight: 700;
+        background-color: #0071e3;
+        border: none;
+        margin-top: 20px;
+    }
+    .btn-auth:hover { background-color: #0077ed; transform: scale(1.01); }
+</style>
+
+<div class="container mb-5">
     <div class="row justify-content-center">
         <div class="col-md-5">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h3 class="card-title text-center mb-4">Create Account</h3>
-                    <form action="register.php" method="POST">
-                        <div class="mb-3">
-                            <label>Username</label>
-                            <input type="text" name="username" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-                        <button type="submit" name="register" class="btn btn-primary w-100">Register</button>
-                    </form>
-                    <p class="mt-3 text-center">Already have an account? <a href="login.php">Login here</a></p>
+            <div class="card auth-card">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold">Create Account</h2>
+                    <p class="text-muted">Start your journey with us</p>
+                </div>
+
+                <?php if(isset($error_msg)): ?>
+                    <div class="alert alert-danger rounded-pill text-center py-2 small">
+                        <i class="fas fa-exclamation-circle me-2"></i> <?= $error_msg ?>
+                    </div>
+                <?php endif; ?>
+
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label small">Username</label>
+                        <input type="text" name="username" class="form-control shadow-none" placeholder="ex: Khaled_2026" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small">Email Address</label>
+                        <input type="email" name="email" class="form-control shadow-none" placeholder="name@example.com" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small">Password</label>
+                        <input type="password" name="password" class="form-control shadow-none" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" name="register" class="btn btn-primary btn-auth w-100">
+                        Sign Up <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="mb-0 text-muted small">Already have an account? 
+                        <a href="login.php" class="text-primary fw-bold text-decoration-none">Log in here</a>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<?php
-if (isset($_POST['register'])) {
-    $user = $_POST['username'];
-    $pass = md5($_POST['password']); // Using md5 for simplicity in your project
-
-    try {
-        $stmt = $pdo->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, 'user')");
-        $stmt->execute([$user, $pass]);
-        echo "<script>alert('Registration Successful! Please Login.'); window.location='login.php';</script>";
-    } catch (PDOException $e) {
-        echo "<div class='alert alert-danger'>Error: Username might already exist!</div>";
-    }
-}
-include 'includes/footer.php';
-?>
+<?php include 'includes/footer.php'; ?>
