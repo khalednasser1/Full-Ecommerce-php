@@ -264,4 +264,4 @@ $revenue = $pdo->query("SELECT SUM(total_amount) FROM orders")->fetchColumn();
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>
