@@ -1,6 +1,6 @@
 <?php
-include '../includes/db.php'; 
-include '../includes/header.php';
+include 'includes/db.php'; 
+include 'includes/header.php';
 
 // 1. Logic: Delete Product (Fisrt thing in the page)
 if (isset($_GET['del_id'])) {
@@ -9,7 +9,7 @@ if (isset($_GET['del_id'])) {
     $stmt->execute([$id]);
     $p = $stmt->fetch();
     if ($p && !empty($p['image'])) {
-        $filePath = __DIR__  . "/../images/" . $p['image'];
+        $filePath = __DIR__  . "images/" . $p['image'];
         if (file_exists($filePath)) { unlink($filePath); }
     }
     $pdo->prepare("DELETE FROM products WHERE id = ?")->execute([$id]);
@@ -21,7 +21,7 @@ if (isset($_GET['del_id'])) {
 if (isset($_POST['add_product'])) {
     $img = $_FILES['p_img']['name'];
     if (!empty($img)) {
-        move_uploaded_file($_FILES['p_img']['tmp_name'], "../images/" . $img);
+        move_uploaded_file($_FILES['p_img']['tmp_name'], "images/" . $img);
         $stmt = $pdo->prepare("INSERT INTO products (name, price, image) VALUES (?, ?, ?)");
         $stmt->execute([$_POST['p_name'], $_POST['p_price'], $img]);
         header('Location: admin.php');
@@ -168,7 +168,7 @@ $revenue = $pdo->query("SELECT SUM(total_amount) FROM orders")->fetchColumn();
                     </div>
                     <div class="mb-4">
                         <label class="form-label small fw-bold">Product Photo</label>
-                        <input type="file" name="p_img" class="form-control" required>
+                        <input type="file" name="p_img" class="form-control" >
                     </div>
                     <button name="add_product" class="btn btn-primary btn-admin w-100 shadow-sm">
                         Add to Inventory <i class="fas fa-plus-circle ms-1"></i>
@@ -196,7 +196,7 @@ $revenue = $pdo->query("SELECT SUM(total_amount) FROM orders")->fetchColumn();
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="../images/<?= $p['image'] ?>?v=<?=time()?>" width="40" height="40" class="rounded-3 me-3" style="object-fit:cover;">
+                                        <img src="images/<?= $p['image'] ?>?v=<?=time()?>" width="40" height="40" class="rounded-3 me-3" style="object-fit:cover;">
                                         <span class="fw-bold"><?= htmlspecialchars($p['name']) ?></span>
                                     </div>
                                 </td>
@@ -264,4 +264,4 @@ $revenue = $pdo->query("SELECT SUM(total_amount) FROM orders")->fetchColumn();
     </div>
 </div>
 
-<?php include '../includes/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

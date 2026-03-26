@@ -82,7 +82,7 @@ include 'db.php'; ?>
             </a>
           </li> 
          
-          <li class="nav-item"><a class="nav-link text-warning" href="./admin/admin.php"><i class="fas fa-sliders-h"></i></a></li>
+          <li class="nav-item"><a class="nav-link text-warning" href="admin.php"><i class="fas fa-sliders-h"></i></a></li>
           
         </ul>
         <div class="d-flex align-items-center">
