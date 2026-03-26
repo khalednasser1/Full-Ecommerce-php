@@ -1,29 +1,22 @@
 <?php 
-include 'includes/db.php'; // تأكد من المسار ده حسب مشروعك
+include 'includes/db.php'; 
 include 'includes/header.php'; 
 
 // 1. Logic: Registration Process
 if (isset($_POST['register'])) {
     $user  = htmlspecialchars($_POST['username']);
     $email = htmlspecialchars($_POST['email']);
-    $pass  = md5($_POST['password']); // التشفير اللي انت شغال بيه
+    $pass  = md5($_POST['password']); // التشفير اللي احنا شغالين بيه
 
-    try {
-        // الترتيب هنا حياة أو موت: username, password, email, role
+    
+      
         $stmt = $pdo->prepare("INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, 'user')");
         
         if ($stmt->execute([$user, $pass, $email])) {
             echo "<script>alert('Account Created Successfully! Go to Login.'); window.location='login.php';</script>";
             exit;
         }
-    } catch (PDOException $e) {
-        // هنا بنعرف السبب الحقيقي بدل التخمين
-        if ($e->getCode() == 23000) { // كود الخطأ لبيانات مكررة
-            $error_msg = "Error: Username or Email already exists!";
-        } else {
-            $error_msg = "Database Error: " . $e->getMessage();
-        }
-    }
+    
 }
 ?>
 
@@ -70,11 +63,7 @@ if (isset($_POST['register'])) {
                     <p class="text-muted">Start your journey with us</p>
                 </div>
 
-                <?php if(isset($error_msg)): ?>
-                    <div class="alert alert-danger rounded-pill text-center py-2 small">
-                        <i class="fas fa-exclamation-circle me-2"></i> <?= $error_msg ?>
-                    </div>
-                <?php endif; ?>
+                
 
                 <form method="POST">
                     <div class="mb-3">

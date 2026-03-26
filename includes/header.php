@@ -83,12 +83,12 @@ include 'db.php'; ?>
           </li> 
          
           <li class="nav-item"><a class="nav-link text-warning" href="./admin/admin.php"><i class="fas fa-sliders-h"></i></a></li>
-          <!--  -->
+          
         </ul>
         <div class="d-flex align-items-center">
           <?php if (isset($_SESSION['user_id'])): ?>
             <span class="text-white me-3">Welcome, <span class="text-warning user-welcome"><?= $_SESSION['username'] ?></span> ! </span>
-            <a href="logout.php" class="btn btn-danger btn-sm rounded-pill">Logout <i class="fas fa-sign-out-alt"></i></a>
+            <a href="http://localhost/Khaled%20Abd%20Elnasser%20Mohammed/logout.php" class="btn btn-danger btn-sm rounded-pill">Logout <i class="fas fa-sign-out-alt"></i></a>
           <?php else: ?>
             <a href="login.php" class="btn btn-light btn-sm">Login</a>
             <a href="register.php" class="btn btn-light btn-sm m-1">Register</a>
